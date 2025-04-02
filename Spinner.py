@@ -17,7 +17,7 @@ def main():
 
     for i in range(1, 4):
         spun_text = spinner.spin_text(original_text)
-        print(f"Variant {i} :", spun_text)
+        print(f"Option {i} :", spun_text)
 
 if __name__ == "__main__":
     main()
