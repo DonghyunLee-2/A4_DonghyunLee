@@ -2,22 +2,24 @@
 # Author: Donghyun Lee (u1538647)
 # GitHub Repo: https://github.com/DonghyunLee-2/A4_DonghyunLee
 
-from Spinner import Spinner
+import random
 
-def main():
-    with open("essay.txt", "r") as f:
-        original_text = f.read().lower()
+class Spinner:
+    def __init__(self, synonym_filename):
+        self.synonym_dict = {}
+        with open(synonym_filename, 'r') as file:
+            for line in file:
+                line = line.strip()
+                if ':' in line:
+                    word, synonyms = line.split(":", 1)
+                    self.synonym_dict[word] = synonyms.split(",")
 
-    import string
-    original_text = original_text.translate(str.maketrans('', '', string.punctuation))
-
-    print("Original :", original_text)
-
-    spinner = Spinner("synonyms-simplified.txt")
-
-    for i in range(1, 4):
-        spun_text = spinner.spin_text(original_text)
-        print(f"Option {i} :", spun_text)
-
-if __name__ == "__main__":
-    main()
+    def spin_text(self, text):
+        words = text.split()
+        spun_words = []
+        for word in words:
+            if word in self.synonym_dict and random.randint(1, 100) > 50:
+                spun_words.append(random.choice(self.synonym_dict[word]))
+            else:
+                spun_words.append(word)
+        return " ".join(spun_words)
